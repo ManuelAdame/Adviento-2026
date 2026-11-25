@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f0e5">
+    <meta name="description" content="Un pequeño detalle para hacer más bonita la espera hasta Navidad.">
+    <title>Diciembre, contigo · Calendario de Adviento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="snow" aria-hidden="true"></div>
+    <main class="page">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Diciembre, contigo, inicio">
+          <span class="brand-mark" aria-hidden="true">✳</span>
+          <span>un diciembre especial</span>
+        </a>
+        <span class="top-note"><span class="top-note-dot"></span> hecho con mucho amor</span>
+      </header>
+
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow"><span aria-hidden="true">✦</span> 24 días para Navidad <span aria-hidden="true">✦</span></p>
+        <h1 id="page-title">Diciembre,<br><em>contigo.</em></h1>
+        <p class="intro-copy">Una ventanita para cada día, un poquito de magia<br class="desktop-break"> para compartir hasta que llegue Navidad.</p>
+        <div class="date-line" aria-hidden="true"><span></span><span class="date-star">✦</span><span></span></div>
+      </section>
+
+      <section class="calendar-wrap" aria-label="Calendario de Adviento">
+        <div class="calendar-heading">
+          <span>Tu cuenta atrás empieza aquí</span>
+          <span class="calendar-count">01 <i>—</i> 24</span>
+        </div>
+        <div class="calendar" id="calendar" aria-label="Elige un día del calendario"></div>
+        <p class="calendar-hint"><span aria-hidden="true">↗</span> elige una casilla para descubrir un detalle</p>
+      </section>
+
+      <footer class="footer">
+        <span class="footer-sparkle" aria-hidden="true">✳</span>
+        <span>Con cariño, para hacerte sonreír.</span>
+        <span class="footer-sparkle" aria-hidden="true">✳</span>
+      </footer>
+    </main>
+
+    <dialog class="surprise-dialog" id="surprise-dialog" aria-labelledby="dialog-title">
+      <button class="dialog-close" type="button" aria-label="Cerrar">×</button>
+      <span class="dialog-sparkle" aria-hidden="true">✦</span>
+      <p class="dialog-eyebrow">UNA SORPRESA TE ESPERA</p>
+      <h2 id="dialog-title">El día <span id="selected-day"></span></h2>
+      <p class="dialog-copy">Estoy preparando algo bonito para ti.<br>Vuelve pronto para descubrirlo.</p>
+      <button class="dialog-button" type="button">¡Qué ilusión!</button>
+    </dialog>
+  </body>
+</html>

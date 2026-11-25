@@ -1,0 +1,483 @@
+:root {
+  color-scheme: light;
+  --paper: #f5f0e5;
+  --paper-light: #fbf8f0;
+  --ink: #223b31;
+  --muted: #788076;
+  --green: #355847;
+  --green-dark: #233d32;
+  --red: #a44f49;
+  --gold: #bd9855;
+  --line: rgba(53, 88, 71, 0.18);
+  font-family: "DM Sans", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.68), transparent 55%),
+    var(--paper);
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.snow {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.38;
+  background-image:
+    radial-gradient(circle, #fff 1px, transparent 1.5px),
+    radial-gradient(circle, #fff 1.2px, transparent 1.7px);
+  background-position: 0 0, 38px 58px;
+  background-size: 87px 92px, 131px 139px;
+  mask-image: linear-gradient(to bottom, #000, transparent 85%);
+}
+
+.page {
+  width: min(100% - 48px, 790px);
+  margin: 0 auto;
+  padding: 28px 0 22px;
+}
+
+.topbar,
+.brand,
+.top-note,
+.calendar-heading,
+.calendar-hint,
+.footer {
+  display: flex;
+  align-items: center;
+}
+
+.topbar {
+  justify-content: space-between;
+  min-height: 34px;
+}
+
+.brand {
+  gap: 9px;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.brand-mark {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid rgba(53, 88, 71, 0.24);
+  border-radius: 50%;
+  color: var(--red);
+  font-size: 17px;
+}
+
+.top-note {
+  gap: 8px;
+  color: #77786e;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.top-note-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.intro {
+  padding: 34px 0 24px;
+  text-align: center;
+}
+
+.eyebrow,
+.dialog-eyebrow {
+  margin: 0;
+  color: var(--red);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.eyebrow span {
+  margin: 0 7px;
+  color: var(--gold);
+  font-size: 12px;
+}
+
+h1,
+.surprise-dialog h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 500;
+}
+
+h1 {
+  margin: 12px 0 8px;
+  color: var(--green-dark);
+  font-size: clamp(48px, 8vw, 72px);
+  letter-spacing: -0.055em;
+  line-height: 0.97;
+}
+
+h1 em {
+  color: var(--red);
+  font-weight: 500;
+}
+
+.intro-copy {
+  margin: 14px 0 16px;
+  color: #73786f;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.date-line {
+  display: flex;
+  width: 124px;
+  align-items: center;
+  gap: 11px;
+  margin: 0 auto;
+  color: var(--gold);
+  font-size: 11px;
+}
+
+.date-line span:not(.date-star) {
+  height: 1px;
+  flex: 1;
+  background: var(--line);
+}
+
+.calendar-wrap {
+  position: relative;
+  overflow: hidden;
+  padding: 20px 28px 16px;
+  border: 1px solid rgba(83, 91, 70, 0.16);
+  border-radius: 5px;
+  background: rgba(251, 248, 240, 0.78);
+  box-shadow: 0 16px 45px rgba(48, 54, 39, 0.07), 0 2px 6px rgba(48, 54, 39, 0.03);
+}
+
+.calendar-wrap::before,
+.calendar-wrap::after {
+  position: absolute;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(164, 79, 73, 0.82) 0,
+    rgba(164, 79, 73, 0.82) 9px,
+    rgba(251, 248, 240, 0.9) 9px,
+    rgba(251, 248, 240, 0.9) 18px
+  );
+  content: "";
+}
+
+.calendar-wrap::before {
+  left: 0;
+}
+
+.calendar-wrap::after {
+  right: 0;
+}
+
+.calendar-heading {
+  justify-content: space-between;
+  padding-bottom: 13px;
+  border-bottom: 1px solid rgba(53, 88, 71, 0.12);
+  color: #77786e;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.calendar-count {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.calendar-count i {
+  padding: 0 5px;
+  color: var(--gold);
+  font-style: normal;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 11px;
+  padding: 18px 0 10px;
+}
+
+.day {
+  position: relative;
+  display: grid;
+  min-height: 74px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(53, 88, 71, 0.2);
+  border-radius: 3px;
+  color: var(--green-dark);
+  background: #f4f0e5;
+  box-shadow: 0 3px 0 rgba(53, 88, 71, 0.12);
+  cursor: pointer;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 27px;
+  transition: transform 160ms ease, box-shadow 160ms ease, color 160ms ease;
+}
+
+.day::before,
+.day::after {
+  position: absolute;
+  color: rgba(189, 152, 85, 0.68);
+  font-family: "DM Sans", sans-serif;
+  font-size: 9px;
+  content: "✦";
+}
+
+.day::before {
+  top: 7px;
+  left: 8px;
+}
+
+.day::after {
+  right: 8px;
+  bottom: 6px;
+  color: rgba(164, 79, 73, 0.58);
+  font-size: 7px;
+}
+
+.day:nth-child(5n + 2),
+.day:nth-child(7n + 4) {
+  border-color: rgba(164, 79, 73, 0.28);
+  color: var(--red);
+  background: #f8eee6;
+}
+
+.day:nth-child(4n + 1) {
+  background: #e9eee4;
+}
+
+.day:nth-child(6n + 3) {
+  transform: translateY(5px);
+}
+
+.day:hover,
+.day:focus-visible {
+  z-index: 1;
+  outline: none;
+  box-shadow: 0 6px 0 rgba(53, 88, 71, 0.12), 0 9px 18px rgba(48, 54, 39, 0.14);
+  transform: translateY(-3px) rotate(-2deg);
+}
+
+.day:nth-child(6n + 3):hover,
+.day:nth-child(6n + 3):focus-visible {
+  transform: translateY(2px) rotate(2deg);
+}
+
+.day:active {
+  box-shadow: 0 1px 0 rgba(53, 88, 71, 0.12);
+  transform: translateY(2px);
+}
+
+.calendar-hint {
+  justify-content: center;
+  gap: 8px;
+  margin: 10px 0 0;
+  color: #89887d;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.calendar-hint span {
+  color: var(--red);
+  font-size: 14px;
+}
+
+.footer {
+  justify-content: center;
+  gap: 12px;
+  padding: 21px 0 0;
+  color: #77786e;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.footer-sparkle {
+  color: var(--gold);
+  font-size: 11px;
+  font-style: normal;
+}
+
+.surprise-dialog {
+  position: fixed;
+  width: min( calc(100% - 36px), 380px );
+  padding: 42px 28px 30px;
+  border: 1px solid rgba(83, 91, 70, 0.2);
+  border-radius: 5px;
+  color: var(--ink);
+  background: var(--paper-light);
+  box-shadow: 0 20px 80px rgba(24, 37, 29, 0.25);
+  text-align: center;
+}
+
+.surprise-dialog::backdrop {
+  background: rgba(26, 40, 32, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.dialog-close {
+  position: absolute;
+  top: 10px;
+  right: 13px;
+  border: 0;
+  color: #85877c;
+  background: transparent;
+  cursor: pointer;
+  font-size: 25px;
+  line-height: 1;
+}
+
+.dialog-sparkle {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--gold);
+  font-size: 27px;
+}
+
+.surprise-dialog h2 {
+  margin: 11px 0;
+  color: var(--green-dark);
+  font-size: 38px;
+}
+
+.surprise-dialog h2 span {
+  color: var(--red);
+}
+
+.dialog-copy {
+  margin: 0 0 22px;
+  color: #73786f;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.dialog-button {
+  padding: 11px 22px;
+  border: 0;
+  border-radius: 2px;
+  color: #fffaf0;
+  background: var(--green);
+  cursor: pointer;
+  font: 600 11px "DM Sans", sans-serif;
+  letter-spacing: 0.06em;
+  transition: background 150ms ease;
+}
+
+.dialog-button:hover {
+  background: var(--green-dark);
+}
+
+@media (max-width: 600px) {
+  .page {
+    width: min(100% - 30px, 470px);
+    padding-top: 20px;
+  }
+
+  .top-note {
+    font-size: 9px;
+  }
+
+  .brand {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+
+  .brand-mark {
+    width: 25px;
+    height: 25px;
+  }
+
+  .intro {
+    padding: 37px 0 22px;
+  }
+
+  .calendar-wrap {
+    padding: 17px 17px 14px;
+  }
+
+  .calendar {
+    gap: 8px;
+    padding-top: 15px;
+  }
+
+  .day {
+    min-height: clamp(50px, 14vw, 67px);
+    font-size: clamp(21px, 6vw, 26px);
+  }
+
+  .day::before {
+    top: 5px;
+    left: 5px;
+    font-size: 7px;
+  }
+
+  .day::after {
+    right: 5px;
+    bottom: 4px;
+    font-size: 6px;
+  }
+
+  .calendar-heading {
+    font-size: 8px;
+    letter-spacing: 0.08em;
+  }
+}
+
+@media (max-width: 360px) {
+  .calendar-wrap {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .calendar {
+    gap: 6px;
+  }
+
+  .day {
+    min-height: 48px;
+  }
+
+  .calendar-hint {
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
