@@ -221,17 +221,65 @@ h1 em {
   font-style: normal;
 }
 
+.progress-section {
+  padding: 16px 0 2px;
+}
+
+.progress-copy {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: #77786e;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.progress-copy span:last-child {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.progress-track {
+  position: relative;
+  height: 7px;
+  overflow: visible;
+  border: 1px solid rgba(53, 88, 71, 0.16);
+  border-radius: 99px;
+  background: #e9e6d9;
+}
+
+.progress-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #718665, var(--green));
+  transition: width 450ms ease;
+}
+
+.progress-star {
+  position: absolute;
+  top: 50%;
+  left: clamp(0px, var(--progress, 0%), 100%);
+  color: var(--gold);
+  font-size: 13px;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+}
+
 .calendar {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 11px;
-  padding: 18px 0 10px;
+  grid-auto-flow: dense;
+  grid-auto-rows: clamp(48px, 6.4vw, 66px);
+  gap: 9px;
+  padding: 16px 0 10px;
 }
 
 .day {
   position: relative;
   display: grid;
-  min-height: 74px;
+  min-height: 0;
   place-items: center;
   overflow: hidden;
   border: 1px solid rgba(53, 88, 71, 0.2);
@@ -241,8 +289,21 @@ h1 em {
   box-shadow: 0 3px 0 rgba(53, 88, 71, 0.12);
   cursor: pointer;
   font-family: "Playfair Display", Georgia, serif;
-  font-size: 27px;
+  font-size: clamp(22px, 3.2vw, 31px);
   transition: transform 160ms ease, box-shadow 160ms ease, color 160ms ease;
+}
+
+.day--wide {
+  grid-column: span 2;
+}
+
+.day--tall {
+  grid-row: span 2;
+}
+
+.day--feature {
+  grid-column: span 2;
+  grid-row: span 2;
 }
 
 .day::before,
@@ -427,13 +488,14 @@ h1 em {
   }
 
   .calendar {
-    gap: 8px;
-    padding-top: 15px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: clamp(48px, 12vw, 62px);
+    gap: 7px;
+    padding-top: 13px;
   }
 
   .day {
-    min-height: clamp(50px, 14vw, 67px);
-    font-size: clamp(21px, 6vw, 26px);
+    font-size: clamp(21px, 6vw, 27px);
   }
 
   .day::before {
@@ -464,8 +526,12 @@ h1 em {
     gap: 6px;
   }
 
-  .day {
-    min-height: 48px;
+  .calendar-heading {
+    font-size: 7px;
+  }
+
+  .progress-copy {
+    font-size: 9px;
   }
 
   .calendar-hint {
