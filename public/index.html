@@ -14,11 +14,68 @@
   </head>
   <body>
     <div class="snow" aria-hidden="true"></div>
-    <main class="page">
+    <main class="entry-screen" id="entry-screen">
       <header class="topbar">
         <a class="brand" href="#" aria-label="Diciembre, contigo, inicio">
           <span class="brand-mark" aria-hidden="true">✳</span>
           <span>un diciembre especial</span>
+        </a>
+        <span class="top-note"><span class="top-note-dot"></span> Christmas calling</span>
+      </header>
+
+      <section class="entry-intro" aria-labelledby="entry-title">
+        <p class="eyebrow"><span aria-hidden="true">✦</span> una sorpresa de Navidad <span aria-hidden="true">✦</span></p>
+        <h1 id="entry-title">Hay algo bonito<br><em>esperándote.</em></h1>
+        <p class="entry-copy">Acércate a la ventana y descubre la magia.</p>
+      </section>
+
+      <button class="window-entry" id="open-calendar" type="button" aria-label="Abrir la ventana y descubrir la magia">
+        <span class="window-frame">
+          <span class="window-scene" aria-hidden="true">
+            <span class="window-sky"></span>
+            <span class="window-pine window-pine--left"></span>
+            <span class="window-pine window-pine--right"></span>
+            <span class="window-moon"></span>
+            <span class="window-snowbank"></span>
+            <span class="window-muntin window-muntin--vertical"></span>
+            <span class="window-muntin window-muntin--horizontal"></span>
+          </span>
+          <svg class="mistletoe" viewBox="0 0 210 190" aria-hidden="true">
+            <path class="mistletoe-stem" d="M197 12C166 37 159 56 139 71S102 94 82 124M157 47c-6 28-2 48 9 67M138 72c-27-5-45-1-63 13M112 92c-4 23 0 39 12 55M83 123c-23-1-39 6-54 21" />
+            <path class="mistletoe-leaf" d="M170 48c-17-1-27-10-28-28 17 1 27 10 28 28Z" />
+            <path class="mistletoe-leaf" d="M174 63c5-17 17-24 34-21-5 17-17 24-34 21Z" />
+            <path class="mistletoe-leaf" d="M141 78c-17-7-23-19-18-36 17 7 23 19 18 36Z" />
+            <path class="mistletoe-leaf" d="M136 79c-7-17-2-31 13-41 7 17 2 31-13 41Z" />
+            <path class="mistletoe-leaf" d="M109 99c-17-7-23-19-18-36 17 7 23 19 18 36Z" />
+            <path class="mistletoe-leaf" d="M105 102c-7-17-2-31 13-41 7 17 2 31-13 41Z" />
+            <path class="mistletoe-leaf" d="M130 126c-17-2-26-12-27-29 17 2 26 12 27 29Z" />
+            <path class="mistletoe-leaf" d="M129 128c2-17 12-26 29-27-2 17-12 26-29 27Z" />
+            <path class="mistletoe-leaf" d="M76 134c-17-2-26-12-27-29 17 2 26 12 27 29Z" />
+            <path class="mistletoe-leaf" d="M72 138c2-17 12-26 29-27-2 17-12 26-29 27Z" />
+            <circle class="mistletoe-berry" cx="153" cy="93" r="6" />
+            <circle class="mistletoe-berry" cx="165" cy="100" r="6" />
+            <circle class="mistletoe-berry" cx="151" cy="108" r="6" />
+          </svg>
+          <span class="window-message">
+            <span class="window-message-star" aria-hidden="true">✦</span>
+            <span class="window-message-title">La magia<br><em>te espera.</em></span>
+            <span class="window-message-action">ABRE LA VENTANA <span aria-hidden="true">↗</span></span>
+          </span>
+        </span>
+      </button>
+
+      <footer class="footer entry-footer">
+        <span class="footer-sparkle" aria-hidden="true">✳</span>
+        <span>Con cariño, para quitar los agobios.</span>
+        <span class="footer-sparkle" aria-hidden="true">✳</span>
+      </footer>
+    </main>
+
+    <main class="page" id="calendar-screen" hidden>
+      <header class="topbar">
+        <a class="brand" id="back-home" href="#" aria-label="Volver a la pantalla de inicio">
+          <span class="brand-mark" aria-hidden="true">✳</span>
+          <span>volver a la ventana</span>
         </a>
         <span class="top-note"><span class="top-note-dot"></span> Christmas Calling</span>
       </header>
@@ -53,6 +110,7 @@
             <span class="progress-star" aria-hidden="true">✦</span>
           </div>
         </div>
+        <p class="storage-notice" id="storage-notice" role="status" hidden></p>
         <div class="calendar" id="calendar" aria-label="Elige un día del calendario"></div>
         <p class="calendar-hint"><span aria-hidden="true">↗</span> elige una casilla para descubrir un detalle</p>
       </section>
@@ -71,6 +129,31 @@
       <h2 id="dialog-title">El día <span id="selected-day"></span></h2>
       <p class="dialog-copy">Estoy preparando algo bonito para ti.<br>Vuelve pronto para descubrirlo.</p>
       <button class="dialog-button" type="button">¡Qué ilusión!</button>
+    </dialog>
+
+    <dialog class="story-dialog" id="day-one-dialog" aria-labelledby="story-title">
+      <button class="dialog-close story-close" type="button" aria-label="Cerrar el cuento">×</button>
+      <div class="story-ornament" aria-hidden="true">✦ ❄ ✦</div>
+      <p class="dialog-eyebrow">1 DE DICIEMBRE · UN CUENTO PARA TI</p>
+      <h2 class="story-title" id="story-title">La luz que guardaba diciembre</h2>
+      <div class="story-progress" id="story-progress" aria-label="Página 1 de 3">
+        <span class="story-progress-fill"></span>
+      </div>
+      <div class="book-spread" id="story-page" aria-live="polite"></div>
+      <div class="story-navigation">
+        <button class="story-nav story-nav--back" id="story-previous" type="button" disabled>← Anterior</button>
+        <span class="story-page-count" id="story-page-count">1 / 3</span>
+        <button class="story-nav" id="story-next" type="button">Siguiente →</button>
+      </div>
+      <section class="game-placeholder" id="game-placeholder" hidden>
+        <span class="game-placeholder-icon" aria-hidden="true">✳</span>
+        <div>
+          <p class="game-placeholder-label">DESPUÉS DEL CUENTO</p>
+          <h3>Un pequeño juego</h3>
+          <p>Este espacio queda reservado para el juego del día. Pronto podremos añadirlo aquí.</p>
+        </div>
+        <span class="game-coming-soon">MUY PRONTO</span>
+      </section>
     </dialog>
   </body>
 </html>

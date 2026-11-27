@@ -1,6 +1,6 @@
 # Adviento 2026
 
-Un calendario de Adviento web para compartir un detalle navideño con tu pareja. Incluye 24 casillas interactivas y un diseño adaptable a móvil y escritorio. Por ahora, cada casilla abre un mensaje provisional; las sorpresas se podrán añadir más adelante.
+Un calendario de Adviento web para compartir un detalle navideño con tu pareja. La experiencia comienza en una portada con una ventana invernal y un muérdago; al abrirla se muestra el calendario de 24 casillas, con desbloqueo progresivo y diseño adaptable a móvil y escritorio. El día 1 incluye un cuento y un espacio reservado para un juego.
 
 ## Contenido
 
@@ -12,10 +12,11 @@ Un calendario de Adviento web para compartir un detalle navideño con tu pareja.
 
 ## Características
 
-- Calendario con 24 días que se pueden abrir.
+- Calendario de 24 días con desbloqueo progresivo.
 - Casillas en disposición de mosaico, con orden y tamaños variados.
-- Barra de progreso actualizable manualmente.
-- Mensaje provisional al seleccionar una casilla.
+- Desbloqueo diario automático y modo de prueba para preparar contenido.
+- Progreso y casillas abiertas guardados en el navegador.
+- Cuento ilustrado de tres dobles páginas alternas para el día 1, con espacio reservado para el juego.
 - Diseño adaptable a pantallas pequeñas y grandes.
 - No necesita backend, dependencias ni proceso de compilación.
 
@@ -52,9 +53,13 @@ Necesitas Python 3 y un navegador web.
 
 También puedes abrir `public/index.html` directamente, aunque el servidor local ofrece una experiencia más parecida al sitio desplegado.
 
-## Actualizar el progreso
+## Desbloqueo, progreso y datos guardados
 
-En `public/script.js`, cambia el valor de `currentDay` al número del último día que quieras marcar como alcanzado. El valor inicial es `0`, así que la barra empieza vacía. Por ejemplo, `const currentDay = 5;` mostrará cinco de los 24 días. No hay un avance automático por fecha: puedes cambiarlo cuando quieras.
+En `public/script.js`, `testMode` está temporalmente en `true`, por lo que el día 1 se puede probar antes de diciembre. Antes de publicar el calendario, cambia ese valor a `false`. A partir de entonces se desbloquearán los días automáticamente del 1 al 24 de diciembre de 2026, según la fecha local del dispositivo. Puedes cambiar `calendarYear` si preparas el calendario para otro año.
+
+Al abrir un día por primera vez, queda marcado y suma una sola vez a la barra de progreso. Se puede volver a abrir. El estado se guarda en `localStorage` del navegador y dispositivo actuales; borrar sus datos del sitio lo reinicia.
+
+Para este detalle personal no hace falta iniciar sesión: Render puede servir la web como sitio estático y `localStorage` mantiene el progreso en ese navegador. No sincroniza entre dispositivos ni impide que una persona técnica altere la fecha o el código en su navegador. Si más adelante necesitas progreso compartido, cuentas o desbloqueo realmente controlado por servidor, hará falta un backend con base de datos y autenticación.
 
 ## Publicar en Render
 
