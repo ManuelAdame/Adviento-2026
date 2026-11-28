@@ -19,36 +19,16 @@ const storyProgress = document.querySelector("#story-progress");
 const storyPreviousButton = document.querySelector("#story-previous");
 const storyNextButton = document.querySelector("#story-next");
 const gamePlaceholder = document.querySelector("#game-placeholder");
+const storyTitle = document.querySelector("#story-title");
+const storyDayLabel = document.querySelector("#story-day-label");
+const gameTitle = document.querySelector("#game-title");
+const gameDescription = document.querySelector("#game-description");
 
 const STORAGE_KEY = "diciembre-contigo-opened-days";
 const testMode = true;
 const calendarYear = 2026;
-const storyPages = [
-  {
-    paragraphs: [
-      "La noche del 1 de diciembre, el invierno dejó una lucecita encendida junto a la ventana.",
-      "Era pequeña, cálida y un poco tímida. Nadie sabía de dónde había venido, pero parecía estar esperando a alguien."
-    ],
-    scene: "window",
-    caption: "La primera noche de diciembre"
-  },
-  {
-    paragraphs: [
-      "Al otro lado del cristal, la nieve cubría los tejados y el pueblo dormía bajo una manta blanca.",
-      "La lucecita brilló un poquito más. Sabía que los mejores regalos no siempre vienen envueltos: a veces son momentos, palabras y personas que hacen que todo se sienta como en casa."
-    ],
-    scene: "lantern",
-    caption: "Una luz en la nieve"
-  },
-  {
-    paragraphs: [
-      "Y así empezó diciembre: con veinticuatro días por descubrir y una sorpresa guardada detrás de cada uno.",
-      "Esta primera lucecita es para ti. Gracias por llenar de magia hasta los días más normales."
-    ],
-    scene: "stars",
-    caption: "Veinticuatro pequeñas sorpresas"
-  }
-];
+const supportedScenes = new Set(["window", "lantern", "stars"]);
+let currentDayContent;
 
 function showStorageNotice(message) {
   storageNotice.textContent = message;
@@ -123,9 +103,50 @@ function markDayAsOpened(day, button) {
 
 let currentStoryPage = 0;
 
+function validateDayContent(content, day) {
+  if (!content || typeof content !== "object" || Array.isArray(content)) {
+    throw new Error(`El contenido del día ${day} debe ser un objeto JSON.`);
+  }
+
+  const hasValidPages = Array.isArray(content.pages)
+    && content.pages.length > 0
+    && content.pages.every((page) => (
+      page
+      && typeof page === "object"
+      && !Array.isArray(page)
+      && Array.isArray(page.paragraphs)
+      && page.paragraphs.length > 0
+      && page.paragraphs.every((paragraph) => typeof paragraph === "string")
+      && (supportedScenes.has(page.scene) || typeof page.image === "string")
+      && typeof page.caption === "string"
+    ));
+  const hasValidGame = content.game
+    && content.game.status === "coming-soon"
+    && typeof content.game.title === "string"
+    && typeof content.game.description === "string";
+
+  if (typeof content.title !== "string" || !hasValidPages || !hasValidGame) {
+    throw new Error(`El contenido del día ${day} no cumple el formato esperado.`);
+  }
+
+  return content;
+}
+
+async function loadDayContent(day) {
+  const response = await fetch(`content/days/day-${String(day).padStart(2, "0")}.json`);
+  if (response.status === 404) {
+    return null;
+  }
+  if (!response.ok) {
+    throw new Error(`No se pudo cargar el contenido del día ${day} (HTTP ${response.status}).`);
+  }
+
+  return validateDayContent(await response.json(), day);
+}
+
 function renderStoryPage() {
   storyPage.replaceChildren();
-  const story = storyPages[currentStoryPage];
+  const story = currentDayContent.pages[currentStoryPage];
   const textLeaf = document.createElement("article");
   textLeaf.className = "book-leaf book-leaf--text";
 
@@ -149,22 +170,41 @@ function renderStoryPage() {
   const artLeaf = document.createElement("div");
   artLeaf.className = "book-leaf book-leaf--art";
 
-  const illustration = document.createElement("div");
-  illustration.className = `book-illustration book-illustration--${story.scene}`;
-  illustration.setAttribute("role", "img");
-  illustration.setAttribute("aria-label", story.caption);
-  illustration.innerHTML = `
-    <span class="art-moon"></span>
-    <span class="art-window"></span>
-    <span class="art-pine art-pine--left"></span>
-    <span class="art-pine art-pine--right"></span>
-    <span class="art-snow"></span>
-    <span class="art-lantern"><span></span></span>
-    <span class="art-sparkle art-sparkle--one">✦</span>
-    <span class="art-sparkle art-sparkle--two">✧</span>
-    <span class="art-sparkle art-sparkle--three">✦</span>
-  `;
-  artLeaf.append(illustration);
+  if (story.image) {
+    const image = document.createElement("img");
+    image.className = "book-illustration book-illustration--photo";
+    image.src = story.image;
+    image.alt = story.caption;
+    artLeaf.append(image);
+  } else {
+    const illustration = document.createElement("div");
+    illustration.className = `book-illustration book-illustration--${story.scene}`;
+    illustration.setAttribute("role", "img");
+    illustration.setAttribute("aria-label", story.caption);
+    const illustrationParts = [
+      ["art-moon"],
+      ["art-window"],
+      ["art-pine", "art-pine--left"],
+      ["art-pine", "art-pine--right"],
+      ["art-snow"],
+      ["art-lantern"],
+      ["art-sparkle", "art-sparkle--one", "✦"],
+      ["art-sparkle", "art-sparkle--two", "✧"],
+      ["art-sparkle", "art-sparkle--three", "✦"],
+    ];
+    for (const [partClass, modifierClass, text] of illustrationParts) {
+      const part = document.createElement("span");
+      part.className = modifierClass ? `${partClass} ${modifierClass}` : partClass;
+      if (text) {
+        part.textContent = text;
+      }
+      if (partClass === "art-lantern") {
+        part.append(document.createElement("span"));
+      }
+      illustration.append(part);
+    }
+    artLeaf.append(illustration);
+  }
 
   const caption = document.createElement("span");
   caption.className = "book-art-caption";
@@ -184,26 +224,41 @@ function renderStoryPage() {
     storyPage.append(textLeaf, artLeaf);
   }
 
-  storyPageCount.textContent = `${pageNumber} / ${storyPages.length}`;
-  storyProgress.setAttribute("aria-label", `Página ${pageNumber} de ${storyPages.length}`);
-  storyProgress.style.setProperty("--story-progress", `${(pageNumber / storyPages.length) * 100}%`);
+  storyPageCount.textContent = `${pageNumber} / ${currentDayContent.pages.length}`;
+  storyProgress.setAttribute("aria-label", `Página ${pageNumber} de ${currentDayContent.pages.length}`);
+  storyProgress.style.setProperty("--story-progress", `${(pageNumber / currentDayContent.pages.length) * 100}%`);
   storyPreviousButton.disabled = currentStoryPage === 0;
-  storyNextButton.textContent = currentStoryPage === storyPages.length - 1 ? "Cuento completo" : "Siguiente →";
-  storyNextButton.disabled = currentStoryPage === storyPages.length - 1;
-  gamePlaceholder.hidden = currentStoryPage !== storyPages.length - 1;
+  const isLastPage = currentStoryPage === currentDayContent.pages.length - 1;
+  storyNextButton.textContent = isLastPage ? "Cuento completo" : "Siguiente →";
+  storyNextButton.disabled = isLastPage;
+  gamePlaceholder.hidden = !isLastPage;
 }
 
-function openDay(day, button) {
-  markDayAsOpened(day, button);
-  if (day === 1) {
+async function openDay(day, button) {
+  button.disabled = true;
+  try {
+    const dayContent = await loadDayContent(day);
+    if (!dayContent) {
+      selectedDay.textContent = String(day).padStart(2, "0");
+      dialog.showModal();
+      return;
+    }
+
+    currentDayContent = dayContent;
+    storyTitle.textContent = dayContent.title;
+    storyDayLabel.textContent = `${day} DE DICIEMBRE · UN CUENTO PARA TI`;
+    gameTitle.textContent = dayContent.game.title;
+    gameDescription.textContent = dayContent.game.description;
     currentStoryPage = 0;
     renderStoryPage();
+    markDayAsOpened(day, button);
     storyDialog.showModal();
-    return;
+  } catch (error) {
+    console.error(`No se pudo abrir el contenido del día ${day}.`, error);
+    showStorageNotice(`No se pudo cargar el contenido del día ${day}. Comprueba que su archivo JSON tenga el formato correcto y vuelve a intentarlo.`);
+  } finally {
+    button.disabled = false;
   }
-
-  selectedDay.textContent = String(day).padStart(2, "0");
-  dialog.showModal();
 }
 
 function showCalendar() {
@@ -294,7 +349,7 @@ storyPreviousButton.addEventListener("click", () => {
   }
 });
 storyNextButton.addEventListener("click", () => {
-  if (currentStoryPage < storyPages.length - 1) {
+  if (currentDayContent && currentStoryPage < currentDayContent.pages.length - 1) {
     currentStoryPage += 1;
     renderStoryPage();
   }

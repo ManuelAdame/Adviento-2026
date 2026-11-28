@@ -946,6 +946,11 @@ h1 em {
   box-shadow: 0 3px 12px rgba(40, 54, 42, 0.12), inset 0 0 0 1px rgba(49, 66, 50, 0.12);
 }
 
+.book-illustration--photo {
+  display: block;
+  object-fit: cover;
+}
+
 .art-window {
   position: absolute;
   z-index: 2;

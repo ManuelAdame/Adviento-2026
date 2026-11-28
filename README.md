@@ -25,11 +25,25 @@ Un calendario de Adviento web para compartir un detalle navideño con tu pareja.
 ```text
 .
 ├── public/
-│   ├── index.html    # Página y contenido
-│   ├── styles.css    # Diseño y estilos adaptables
-│   └── script.js     # Casillas y diálogo interactivo
+│   ├── content/
+│   │   └── days/
+│   │       └── day-01.json  # Cuento y datos del juego del día 1
+│   ├── index.html            # Estructura de las pantallas
+│   ├── script.js             # Calendario, desbloqueo y navegación
+│   └── styles.css            # Diseño y estilos adaptables
 └── README.md
 ```
+
+## Dónde editar los días
+
+Cada día se añade solo cuando esté preparado; no hay que crear de antemano archivos vacíos para los 24 días.
+
+- **Cuento y datos del juego:** edita `public/content/days/day-XX.json`. El día 1 ya está en `day-01.json`; para el siguiente, crea `day-02.json` siguiendo su estructura. Cada elemento de `pages` representa una doble página del libro: escribe el texto en `paragraphs` y elige una escena (`window`, `lantern` o `stars`) y su `caption`. También puedes crear `public/images/days/`, guardar allí una imagen y poner su ruta relativa en el campo `image` de esa página.
+- **Nombre y descripción del juego:** están en el objeto `game` del mismo JSON. De momento todos los juegos están marcados como `coming-soon`.
+- **Mecánica del juego:** cuando vayamos a implementar un juego, su código irá separado en `public/games/` (por ejemplo, `public/games/day-01.js`). Crearemos esa carpeta al añadir el primer juego; `public/script.js` se mantiene para la lógica común del calendario.
+- **Diseño compartido del libro o del calendario:** edita `public/styles.css`; el HTML común está en `public/index.html`.
+
+El JSON del día 1 sirve de plantilla para los siguientes. Los días sin archivo de contenido siguen mostrando el aviso de “próximamente” y no suman progreso al abrirlos.
 
 ## Abrir en local
 
