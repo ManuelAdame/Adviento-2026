@@ -1,0 +1,34 @@
+{
+  "title": "La luz que guardaba diciembre",
+  "pages": [
+    {
+      "paragraphs": [
+        "La noche del 1 de diciembre, el invierno dejó una lucecita encendida junto a la ventana.",
+        "Era pequeña, cálida y un poco tímida. Nadie sabía de dónde había venido, pero parecía estar esperando a alguien."
+      ],
+      "scene": "window",
+      "caption": "La primera noche de diciembre"
+    },
+    {
+      "paragraphs": [
+        "Al otro lado del cristal, la nieve cubría los tejados y el pueblo dormía bajo una manta blanca.",
+        "La lucecita brilló un poquito más. Sabía que los mejores regalos no siempre vienen envueltos: a veces son momentos, palabras y personas que hacen que todo se sienta como en casa."
+      ],
+      "scene": "lantern",
+      "caption": "Una luz en la nieve"
+    },
+    {
+      "paragraphs": [
+        "Y así empezó diciembre: con veinticuatro días por descubrir y una sorpresa guardada detrás de cada uno.",
+        "Esta primera lucecita es para ti. Gracias por llenar de magia hasta los días más normales."
+      ],
+      "scene": "stars",
+      "caption": "Veinticuatro pequeñas sorpresas"
+    }
+  ],
+  "game": {
+    "status": "coming-soon",
+    "title": "Un pequeño juego",
+    "description": "Este espacio queda reservado para el juego del día. Pronto podremos añadirlo aquí."
+  }
+}
